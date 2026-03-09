@@ -1,0 +1,67 @@
+#  Proyecto Node: Introducción y Conceptos Fundamentales
+
+¡Bienvenido a tu primer proyecto de **Node.js**! Este documento tiene como objetivo explicar los conceptos clave que todo desarrollador de Node debe conocer para dominar el entorno.
+
+---
+
+## 1. ¿Qué es Node.js?
+
+**Node.js** es un entorno de ejecución (*runtime*) para JavaScript construido con el motor de JavaScript V8 de Chrome (el mismo que usa Google Chrome). 
+
+### Puntos clave:
+*   **No es un lenguaje:** Es un entorno que permite ejecutar JavaScript fuera del navegador.
+*   **Asíncrono y orientado a eventos:** Node está diseñado para construir aplicaciones de red escalables.
+*   **Basado en V8:** Esto lo hace extremadamente rápido al compilar JavaScript directamente a código de máquina.
+
+---
+
+##  2. ¿Qué es el Event Loop?
+
+El **Event Loop** (Bucle de Eventos) es el corazón de Node.js. Es lo que permite que Node realice operaciones de entrada/salida (I/O) **no bloqueantes**, a pesar de que JavaScript es monohilo (*single-threaded*).
+
+### ¿Cómo funciona?
+1.  Node delega las tareas pesadas (como leer un archivo o consultar una base de datos) al sistema operativo.
+2.  Mientras esas tareas se procesan en segundo plano, el Event Loop sigue ejecutando el resto del código.
+3.  Cuando una tarea termina, se coloca en una cola (*callback queue*).
+4.  El Event Loop toma esa tarea de la cola y la ejecuta cuando el hilo principal está libre.
+
+---
+
+##  3. Diferencias: Navegador vs. Servidor
+
+Aunque ambos usan JavaScript, el entorno donde se ejecutan cambia completamente sus capacidades:
+
+| Características | Navegador (Frontend) | Servidor / Node.js (Backend) |
+| :--- | :--- | :--- |
+| **Objeto Global** | `window` | `global` |
+| **Manipulación DOM** | Sí (document, body, etc.) | No (no hay interfaz visual) |
+| **Acceso a Archivos** | Muy limitado por seguridad | Acceso total al sistema de archivos (`fs`) |
+| **APIs nativas** | Fetch, Geolocation, DOM | HTTP, Path, OS, File System |
+| **Propósito** | Interacción con el usuario | Lógica de negocio, bases de datos |
+
+---
+
+##  4. ¿Qué es npm?
+
+**npm** (*Node Package Manager*) es el gestor de paquetes por defecto para Node.js. Es el registro de software más grande del mundo.
+
+### Funciones principales:
+*   **Gestión de Dependencias:** Permite instalar librerías de terceros (como `express`, `nodemon` o `mongoose`) fácilmente.
+*   **Scripts de Automatización:** En el archivo `package.json` puedes definir comandos personalizados (como `npm start`).
+*   **Ecosistema:** Ofrece acceso a millones de módulos listos para ser usados en tu proyecto.
+
+---
+
+##  Cómo ejecutar este proyecto
+
+1.  Asegúrate de tener instalado [Node.js](https://nodejs.org/).
+2.  Instala las dependencias necesarias:
+    ```bash
+    npm install
+    ```
+3.  Ejecuta el proyecto con el script configurado:
+    ```bash
+    npm start
+    ```
+
+---
