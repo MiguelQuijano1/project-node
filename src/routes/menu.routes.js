@@ -1,0 +1,41 @@
+const express = require('express');
+const router = express.Router();
+const menuController = require('../controllers/menu.controller');
+
+// GET /menu
+router.get('/', menuController.obtenerMenu);
+
+// GET /menu/buscar?nombre=xxx
+router.get('/buscar', menuController.buscarPlato);
+
+// GET /menu/:id — buscar un plato por su _id de MongoDB   ← agregado en Bloque D
+router.get('/:id', menuController.buscarPlato);
+
+// POST /menu
+router.post('/', menuController.agregarPlato);
+
+// DELETE /menu/:id
+router.delete('/:id', menuController.eliminarPlato);
+
+// PUT /menu/:id
+router.put('/:id', menuController.actualizarPlato);
+
+const verificarDatosPlato = (req, res, next) => {
+    const { nombre, precio } = req.body;
+    if (!nombre || !precio) {
+        return res.status(400).json({
+            error: 'Middleware: nombre y precio son obligatorios'
+        });
+    }
+    if (precio <= 0) {
+        return res.status(400).json({
+            error: 'Middleware: el precio debe ser mayor a cero'
+        });
+    }
+    next();
+};
+
+// Sobrescribe el POST anterior con el middleware
+router.post('/', verificarDatosPlato, menuController.agregarPlato);
+
+module.exports = router;

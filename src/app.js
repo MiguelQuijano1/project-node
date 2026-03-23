@@ -4,8 +4,20 @@ function saludar(nombre) {
 
 console.log(saludar("Sebastian"));
 
+<<<<<<< HEAD
 const http = require("http");
 const url = require("url");
+=======
+const conectarDB = require('./database/connection');
+
+// Conectar a MongoDB antes de levantar el servidor
+conectarDB();
+
+
+
+app.use(express.json());
+app.use(logger);
+>>>>>>> 9f225c2 (Dia 4 Base de datos)
 
 const server = http.createServer((req, res) => {
 
