@@ -6,6 +6,13 @@ const app = express();
 const PORT = 3000;
 const logger = require('./middlewares/logger');
 
+const conectarDB = require('./database/connection');
+
+// Conectar a MongoDB antes de levantar el servidor
+conectarDB();
+
+
+
 app.use(express.json());
 app.use(logger);
 

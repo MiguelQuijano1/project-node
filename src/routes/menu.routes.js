@@ -1,4 +1,3 @@
-// routes/menu.routes.js
 const express = require('express');
 const router = express.Router();
 const menuController = require('../controllers/menu.controller');
@@ -9,11 +8,15 @@ router.get('/', menuController.obtenerMenu);
 // GET /menu/buscar?nombre=xxx
 router.get('/buscar', menuController.buscarPlato);
 
+// GET /menu/:id — buscar un plato por su _id de MongoDB   ← agregado en Bloque D
+router.get('/:id', menuController.buscarPlato);
+
 // POST /menu
 router.post('/', menuController.agregarPlato);
 
 // DELETE /menu/:id
 router.delete('/:id', menuController.eliminarPlato);
+
 // PUT /menu/:id
 router.put('/:id', menuController.actualizarPlato);
 
@@ -32,10 +35,7 @@ const verificarDatosPlato = (req, res, next) => {
     next();
 };
 
-
+// Sobrescribe el POST anterior con el middleware
 router.post('/', verificarDatosPlato, menuController.agregarPlato);
 
-
-
 module.exports = router;
-

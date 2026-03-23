@@ -1,75 +1,72 @@
-// controllers/menu.controller.js
-// Estas funciones son los equivalentes de operaciones.js del Sprint 0
-
-// Los datos viven aquí por ahora — en el Día 4 pasarán a una base de datos
-let menu = [
-    { id: 1, nombre: 'Lomo saltado', categoria: 'segundos', precio: 18, stock: 3, disponible: true },
-    { id: 2, nombre: 'Arroz con pollo', categoria: 'segundos', precio: 12, stock: 5, disponible: true },
-    { id: 3, nombre: 'Sopa', categoria: 'entradas', precio: 8, stock: 10, disponible: true }
-];
+const platoService = require('../services/plato.service');
 
 // Equivalente a mostrarMenu() del Sprint 0
-exports.obtenerMenu = (req, res) => {
-    res.status(200).json(menu);
+exports.obtenerMenu = async (req, res) => {
+    try {
+        const platos = await platoService.obtenerTodos();
+        res.status(200).json(platos);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 };
 
 // Equivalente a buscarPlatoPorNombre() del Sprint 0
-exports.buscarPlato = (req, res) => {
-    const { nombre } = req.query;
-    if (!nombre) {
-        return res.status(400).json({ error: 'Parámetro nombre requerido' });
+// (en el tutorial se cambió a búsqueda por :id)
+exports.buscarPlato = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const plato = await platoService.buscarPorId(id);
+        if (!plato) {
+            return res.status(404).json({ error: 'Plato no encontrado' });
+        }
+        res.status(200).json(plato);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
-    const plato = menu.find(p => p.nombre.toLowerCase().includes(nombre.toLowerCase()));
-    if (!plato) {
-        return res.status(404).json({ error: `Plato '${nombre}' no encontrado` });
-    }
-    res.status(200).json(plato);
 };
 
 // Equivalente a agregarPlato() del Sprint 0
-exports.agregarPlato = (req, res) => {
-    const { nombre, categoria, precio, stock } = req.body;
-    if (!nombre || !precio) {
-        return res.status(400).json({ error: 'Se requieren nombre y precio' });
+exports.agregarPlato = async (req, res) => {
+    try {
+        const { nombre, precio, stock, categoria } = req.body;
+
+        if (!nombre || !precio) {
+            return res.status(400).json({ error: 'nombre y precio son obligatorios' });
+        }
+
+        const nuevo = await platoService.crear(req.body);
+
+        res.status(201).json({ mensaje: 'Plato creado', plato: nuevo });
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
-    const nuevo = {
-        id: menu.length + 1,
-        nombre,
-        categoria: categoria || 'sin categoría',
-        precio,
-        stock: stock || 0,
-        disponible: (stock || 0) > 0
-    };
-    menu.push(nuevo);
-    res.status(201).json({ mensaje: 'Plato agregado', plato: nuevo });
 };
 
 // Eliminar plato por id
-exports.eliminarPlato = (req, res) => {
-    const id = parseInt(req.params.id);
-    const index = menu.findIndex(p => p.id === id);
-    if (index === -1) {
-        return res.status(404).json({ error: 'Plato no encontrado' });
+exports.eliminarPlato = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const plato = await platoService.eliminar(id);
+        if (!plato) {
+            return res.status(404).json({ error: 'Plato no encontrado' });
+        }
+        res.status(200).json({ mensaje: 'Plato eliminado', plato });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
-    const eliminado = menu.splice(index, 1)[0];
-    res.status(200).json({ mensaje: 'Plato eliminado', plato: eliminado });
 };
 
 // Actualizar stock de un plato — equivalente a actualizarStock() del Sprint 0
-exports.actualizarPlato = (req, res) => {
-    const id = parseInt(req.params.id);
-    const plato = menu.find(p => p.id === id);
-
-    if (!plato) {
-        return res.status(404).json({ error: 'Plato no encontrado' });
+exports.actualizarPlato = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const plato = await platoService.actualizar(id, req.body);
+        if (!plato) {
+            return res.status(404).json({ error: 'Plato no encontrado' });
+        }
+        res.status(200).json({ mensaje: 'Plato actualizado', plato });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
-
-    const { precio, stock } = req.body;
-    if (precio !== undefined) plato.precio = precio;
-    if (stock !== undefined) plato.stock = stock;
-
-    res.status(200).json({ mensaje: 'Plato actualizado', plato });
 };
-
-
-
