@@ -1,0 +1,14 @@
+Bug 1 - Seguridad
+¿Dónde está el bug? En routes/menu.routes.js. La ruta router.post('/') no incluye el middleware verifyToken.
+¿Qué consecuencia tiene en el sistema? Cualquier persona, sin estar autenticada (sin token JWT válidos), puede agregar platos al menú.
+¿Cuál es la corrección? Agregar el middleware verifyToken antes del controlador: router.post('/', verifyToken, menuController.agregarPlato)
+
+Bug 2 - Configuración
+¿Dónde está el bug? En database/connection.js. Se usa process.env.MONGO_URI directamente en la variable uri en vez de leer de config.
+¿Cuándo falla exactamente? Falla si database/connection.js se importa/ejecuta antes de que el archivo dotenv cargue las variables de entorno, obteniendo un valor undefined.
+¿Cuál es la corrección? Eliminar const uri = process.env.MONGO_URI y usar directamente la variable ya importada mongoUri en await mongoose.connect(mongoUri).
+
+Bug 3 - Lógica
+¿Dónde está el bug? En services/plato.service.js. En el método actualizar, la llamada a findByIdAndUpdate no tiene configuraciones adicionales.
+¿Qué ve el cliente que no debería ver? El cliente recibe los datos del plato ANTES de la modificación aunque los datos en la base de datos se hayan modificado con éxito.
+¿Cuál es la corrección? Pasar { new: true } como tercer argumento para retornar el objeto modificado: await Plato.findByIdAndUpdate(id, data, { new: true });

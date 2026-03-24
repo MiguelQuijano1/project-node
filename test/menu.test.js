@@ -20,4 +20,15 @@ describe('Rutas del menú', () => {
         const response = await request(app).get('/menu/id-que-no-existe');
         assert.strictEqual(response.status, 500);
     });
+    test('GET /menu/categoria/:cat con categoría válida devuelve 200 y array', async (t) => {
+        const response = await request(app).get('/menu/categoria/Segundos');
+        assert.strictEqual(response.status, 200);
+        assert.ok(Array.isArray(response.body));
+    });
+
+    test('GET /menu/categoria/:cat con categoría inexistente devuelve array vacío', async (t) => {
+        const response = await request(app).get('/menu/categoria/NoExiste');
+        assert.strictEqual(response.status, 200);
+        assert.strictEqual(response.body.length, 0);
+    });
 });

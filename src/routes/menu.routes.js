@@ -10,6 +10,7 @@ router.get('/buscar', (req, res, next) => {
     }
     next();
 }, menuController.buscarPorNombre);
+router.get('/categoria/:categoria', menuController.filtrarPorCategoria);
 router.get('/:id', menuController.buscarPlato);
 router.post('/', verifyToken, menuController.agregarPlato);
 router.delete('/:id', verifyToken, menuController.eliminarPlato);

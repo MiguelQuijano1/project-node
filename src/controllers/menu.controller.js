@@ -19,6 +19,15 @@ exports.buscarPorNombre = async (req, res) => {
 };
 
 
+exports.filtrarPorCategoria = async (req, res) => {
+    try {
+        const platos = await platoService.buscarPorCategoria(req.params.categoria);
+        res.status(200).json(platos);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 exports.buscarPlato = async (req, res) => {
     try {
         const plato = await platoService.buscarPorId(req.params.id);

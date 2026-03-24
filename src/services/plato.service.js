@@ -6,6 +6,9 @@ exports.buscarPorNombre = async (nombre) =>
     await Plato.find({ nombre: { $regex: nombre, $options: 'i' } });
 
 
+exports.buscarPorCategoria = async (categoria) =>
+    await Plato.find({ categoria });
+
 exports.buscarPorId = async (id) => await Plato.findById(id);
 
 exports.crear = async (data) => await new Plato(data).save();
