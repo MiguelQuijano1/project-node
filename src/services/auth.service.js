@@ -2,6 +2,7 @@
 const AuthUser = require('../models/auth.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { jwtSecret } = require('../config');
 
 class AuthService {
     async register(data) {
@@ -23,8 +24,7 @@ class AuthService {
     }
 
     async generarToken(payload) {
-        const claveSecreta = process.env.JWT_SECRET || 'clave_desarrollo';
-        return jwt.sign(payload, claveSecreta, { expiresIn: '24h' });
+        return jwt.sign(payload, jwtSecret, { expiresIn: '24h' });
     }
 }
 
