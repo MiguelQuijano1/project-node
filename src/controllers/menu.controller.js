@@ -9,6 +9,16 @@ exports.obtenerMenu = async (req, res) => {
     }
 };
 
+exports.buscarPorNombre = async (req, res) => {
+    try {
+        const platos = await platoService.buscarPorNombre(req.query.nombre);
+        res.status(200).json(platos);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
 exports.buscarPlato = async (req, res) => {
     try {
         const plato = await platoService.buscarPorId(req.params.id);

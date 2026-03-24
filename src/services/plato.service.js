@@ -2,6 +2,10 @@ const Plato = require('../models/plato.model');
 
 exports.obtenerTodos = async () => await Plato.find();
 
+exports.buscarPorNombre = async (nombre) =>
+    await Plato.find({ nombre: { $regex: nombre, $options: 'i' } });
+
+
 exports.buscarPorId = async (id) => await Plato.findById(id);
 
 exports.crear = async (data) => await new Plato(data).save();
