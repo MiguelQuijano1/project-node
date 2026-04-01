@@ -1,0 +1,11 @@
+1. ¿Qué problema concreto resuelve TypeScript que JavaScript no resuelve? Usa un ejemplo del restaurante que construyeron, no uno genérico.
+Respuesta: En JS podíamos mandar un "precio" como texto y el código lo dejaba pasar si era silencioso. TS nos marca el error apenas escribimos `precio: "veinte"` en vez de `precio: 20`, previniendo que la app rompa en producción.
+
+2. En el proyecto Node.js tienen models/Plato.js con un schema de Mongoose. Hoy crearon una interface Plato en TypeScript. ¿Por qué necesitan las dos? ¿No hacen lo mismo?
+Respuesta: Mongoose cuida que no guarden basura física en la BD. La Interface cuida que los desarrolladores no escriban código que maneja esos datos mal en el día a día.
+
+3. ¿Qué diferencia hay entre Plato y CreatePlatoDto? ¿Por qué el cliente no envía _id cuando crea un plato nuevo?
+Respuesta: CreatePlatoDto no tiene _id y cosas como createdAt o updatedAt porque esos valores los genera MongoDB y el sistema solos, el cliente que envía el POST no los debe enviar.
+
+4. Si mañana agregan una entidad Pedido con campos mesa, items y total, ¿qué crearían primero antes de tocar cualquier archivo del proyecto? Describe los pasos sin escribir código.
+Respuesta: Primero armaría una RequestDto (lo que llega al endpoint, mesa e items), luego la interface Pedido con todos los atributos (+ total + _id) e iteraría el código.

@@ -1,0 +1,6 @@
+EVALUADOR: [Tu Nombre]
+EVALUADO: [Nombre de tu compañero]
+ESCENARIO ELEGIDO: 1 (Diferencia de Modelos vs Interfaces)
+RESUMEN DE LA RESPUESTA: Mongoose valida en ejecución en la base de datos, TS valida mientras escribimos en el editor.
+QUÉ ENTENDIÓ BIEN: Comprendió perfectamente el concepto de que TS previene errores tempranos.
+QUÉ NECESITA REPASAR: Recordar la nomenclatura exacta de los DTOs.
