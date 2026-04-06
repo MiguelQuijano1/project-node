@@ -1,0 +1,11 @@
+1. En el proyecto Node.js el controller hacía req.body directamente sin verificar tipos. Hoy lo tiparon con Request<{}, {}, CreatePlatoDto>. ¿Qué problema concreto resuelve eso? Usa un ejemplo del restaurante.
+Respuesta: Antes el cliente podia enviar cualquierdato y el backend no se daba cuanta hasta que fallara, al agregar un request ahora ya sabe que debe haber en el body.
+
+2. ¿Por qué buscarPorId() devuelve Promise<Plato | null> y no solo Promise<Plato>? ¿Qué obliga TypeScript a hacer en el controller cuando el resultado puede ser null?
+Respusta: Porque el plato Podria no estar en la base de datos y al no tener una respuesta a ese caso, el sistema se romperia al no saber que devolver.
+
+¿Qué diferencia hay entre void y Promise<void> como tipo de retorno? ¿Por qué verifyToken devuelve void y crearPlato devuelve Promise<void>?
+Respuesta: void se usa para funciones normales que no retornan nada, mientras que promise<void> se usa en funciones async que no retornan datos pero si una promesa
+
+4. Si mañana agregan un endpoint GET /menu/categoria/:cat al restaurante, ¿qué tipos tendrían que agregar o modificar en qué archivos? Describe el flujo sin escribir código.
+Respuesta: Crear el metodo en el service para buscar por categoria, Luego crear una funcion que reciva el parametro en el controller, agregar la ruta al routes
