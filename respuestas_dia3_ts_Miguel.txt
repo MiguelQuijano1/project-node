@@ -1,0 +1,11 @@
+1. ¿Qué tipo tienen los parámetros error en los bloques catch actualmente?
+Respuesta: Tienen tipo any implícito porque en el Día 2 no se les puso anotación de tipo.
+
+2. ¿Por qué error en un catch es unknown y no Error? ¿Qué podría lanzar un código que no sea un Error?
+Respuesta: Porque en JavaScript cualquier cosa puede ser lanzada con throw, no solo objetos Error. Por ejemplo un string, un número o un objeto literal. TypeScript usa unknown para obligarte a verificar antes de acceder a propiedades.
+
+3. Si error es unknown, ¿qué pasa si intentás escribir error.message directamente sin verificar?
+Respuesta: TypeScript lo rechaza en modo strict porque unknown no tiene propiedades accesibles sin verificación previa. Hay que usar instanceof Error primero.
+
+4. ¿Por qué es mejor que la app falle en startup con un mensaje claro en lugar de fallar en producción?
+Respuesta: Porque Zod lanza un error con un mensaje exacto indicando qué variable falta en el momento de iniciar, haciendo imposible desplegar una app mal configurada sin darse cuenta. Un error en producción lo sufre el usuario final y puede tardar días en detectarse.

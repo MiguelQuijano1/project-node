@@ -1,8 +1,7 @@
 import { Request, Response } from 'express'
 import { platoService } from '../services/plato.service'
 import { CreatePlatoDto, UpdatePlatoDto } from '../types/restaurante.types'
- 
-// GET /menu — lista todos los platos
+
 export const obtenerMenu = async (
   req: Request,
   res: Response
@@ -10,14 +9,14 @@ export const obtenerMenu = async (
   try {
     const platos = await platoService.buscarTodos()
     res.status(200).json(platos)
-  } catch (error) {
-    res.status(500).json({ error: 'Error al obtener el menú' })
+  } catch (error: unknown) {
+    const mensaje = error instanceof Error ? error.message : 'Error interno'
+    res.status(500).json({ error: mensaje })
   }
 }
- 
-// GET /menu/:id — un plato específico
+
 export const obtenerPlato = async (
-  req: Request<{ id: string }>,   // params tipados
+  req: Request<{ id: string }>,
   res: Response
 ): Promise<void> => {
   try {
@@ -27,25 +26,25 @@ export const obtenerPlato = async (
       return
     }
     res.status(200).json(plato)
-  } catch (error) {
-    res.status(500).json({ error: 'Error al buscar plato' })
+  } catch (error: unknown) {
+    const mensaje = error instanceof Error ? error.message : 'Error interno'
+    res.status(500).json({ error: mensaje })
   }
 }
- 
-// POST /menu — crear plato (protegido con JWT)
+
 export const crearPlato = async (
-  req: Request<{}, {}, CreatePlatoDto>,  // body tipado
+  req: Request<{}, {}, CreatePlatoDto>,
   res: Response
 ): Promise<void> => {
   try {
     const plato = await platoService.crear(req.body)
     res.status(201).json(plato)
-  } catch (error) {
-    res.status(500).json({ error: 'Error al crear plato' })
+  } catch (error: unknown) {
+    const mensaje = error instanceof Error ? error.message : 'Error interno'
+    res.status(400).json({ error: mensaje })
   }
 }
- 
-// PUT /menu/:id — actualizar plato (protegido con JWT)
+
 export const actualizarPlato = async (
   req: Request<{ id: string }, {}, UpdatePlatoDto>,
   res: Response
@@ -57,12 +56,12 @@ export const actualizarPlato = async (
       return
     }
     res.status(200).json(plato)
-  } catch (error) {
-    res.status(500).json({ error: 'Error al actualizar plato' })
+  } catch (error: unknown) {
+    const mensaje = error instanceof Error ? error.message : 'Error interno'
+    res.status(500).json({ error: mensaje })
   }
 }
- 
-// DELETE /menu/:id — eliminar plato (protegido con JWT)
+
 export const eliminarPlato = async (
   req: Request<{ id: string }>,
   res: Response
@@ -74,12 +73,12 @@ export const eliminarPlato = async (
       return
     }
     res.status(200).json({ mensaje: 'Plato eliminado', plato })
-  } catch (error) {
-    res.status(500).json({ error: 'Error al eliminar plato' })
+  } catch (error: unknown) {
+    const mensaje = error instanceof Error ? error.message : 'Error interno'
+    res.status(500).json({ error: mensaje })
   }
 }
- 
-// GET /menu/categoria/:cat — filtrar por categoría
+
 export const filtrarPorCategoria = async (
   req: Request<{ cat: string }>,
   res: Response
@@ -87,7 +86,8 @@ export const filtrarPorCategoria = async (
   try {
     const platos = await platoService.buscarPorCategoria(req.params.cat)
     res.status(200).json(platos)
-  } catch (error) {
-    res.status(500).json({ error: 'Error al filtrar platos' })
+  } catch (error: unknown) {
+    const mensaje = error instanceof Error ? error.message : 'Error interno'
+    res.status(500).json({ error: mensaje })
   }
 }
